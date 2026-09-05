@@ -1,3 +1,7 @@
+from graphviz import Digraph
+import math
+import random
+
 #Value Class
 
 class Value:
@@ -30,9 +34,6 @@ d.label = 'd'
 print(c.value)
 print(c._prev)
 print(c._op)
-
-from graphviz import Digraph
-import math
 
 class Value:
     def __init__(self, value, _children=(), _op='', label=''):
@@ -79,11 +80,9 @@ class Value:
         )
 
     def __pow__(self, other):
-        if not isinstance(other, Value):
-            other = Value(other)
         return Value(
-            self.value ** other.value,
-            (self, other),
+            self.value ** other,
+            (self,),
             '**'
         )
 
@@ -170,9 +169,8 @@ class Value:
                 x.grad += (1 / y.value) * v.grad
                 y.grad += (-x.value / (y.value ** 2)) * v.grad
             elif v._op == '**':
-                x, y = v._prev
-                x.grad += (y.value * (x.value ** (y.value - 1))) * v.grad
-                y.grad += ((x.value ** y.value) * math.log(x.value)) * v.grad
+                x, = v._prev
+                x.grad += (2 * x.value) * v.grad
             elif v._op == 'exp':
                 x, = v._prev
                 x.grad += (v.value) * v.grad
@@ -231,7 +229,7 @@ g = e * f
 g.label = 'g'
 
 
-draw_dot(g).render("computation_graph", view=True)
+# draw_dot(g).render("computation_graph", view=True)
 
 #manual grads
 
@@ -275,7 +273,7 @@ n.label = 'n'
 o = n.tanh()
 o.label = 'o'
 
-draw_dot(o).render("computation_graph_tanh", view=True)
+# draw_dot(o).render("computation_graph_tanh", view=True)
 
 o.grad = 1.0
 n.grad = o.grad * (1 - o.value**2)
@@ -361,3 +359,78 @@ print("tanh2:", o2.value)
 
 print("normal gradient:", x1.grad)
 print("tanh2 gradient:", x2.grad)
+
+# neuron, layer, MLP classes
+
+class Neuron:
+    def __init__(self, n_inputs):
+        self.w = [Value(random.uniform(-1, 1)) for _ in range(n_inputs)]
+        self.b = Value(random.uniform(-1, 1))
+
+    def __call__(self, x):
+        act = sum((wi*xi for wi, xi in zip(self.w, x)), self.b)
+        out = act.tanh()
+        return out
+
+    def params(self):
+        return self.w + [self.b]
+
+class Layer:
+    def __init__(self, n_inputs, n_outputs):
+        self.neurons = [Neuron(n_inputs) for _ in range(n_outputs)]
+
+    def __call__(self, x):
+        return [neuron(x) for neuron in self.neurons]
+
+    def params(self):
+        return [p for neuron in self.neurons for p in neuron.params()]
+
+class MLP:
+    def __init__(self, n_inputs, n_outputs):
+        sz = [n_inputs] + n_outputs
+        self.layers = [Layer(sz[i], sz[i+1]) for i in range(len(n_outputs))]
+
+    def __call__(self, x):
+        for layer in self.layers:
+            x = layer(x)
+        return x
+
+    def params(self):
+        return [p for layer in self.layers for neuron in layer.neurons for p in neuron.params()]
+def params(self):
+        return [p for layer in self.layers for neuron in layer.neurons for p in neuron.w] + [neuron.b for layer in self.layers for neuron in layer.neurons]
+
+xs = [
+    [2.0, 3.0, -1.0],
+    [3.0, -1.0, 0.5],
+    [0.5, 1.0, 1.0],
+    [1.0, 1.0, -1.0],
+]
+
+ys = [1.0, -1.0, -1.0, 1.0]
+
+model = MLP(3, [4, 4, 1])
+
+ypred = [model(x) for x in xs]
+
+print("Predictions:")
+for y in ypred:
+    print(y[0].value)
+
+for step in range(20):
+
+    ypred = [model(x) for x in xs]
+    loss = sum(((y[0] - target)**2 for y, target in zip(ypred, ys)), Value(0.0))
+
+    for p in model.params():
+        p.grad = 0.0
+
+    loss.backward2()
+    print("loss grad:", loss.grad)
+    print("prediction grad:", ypred[0][0].grad)
+    print("first parameter grad:", model.params()[0].grad)
+
+    for p in model.params():
+        p.value += -0.1 * p.grad
+
+    print(step, loss.value)
