@@ -1,22 +1,22 @@
 digraph {
 	graph [rankdir=LR]
-	4304806416 [label="{ x1*w1 | value = -2.0 | op = * | grad = 0.0 }" shape=record]
-	4300635264 [label="{ w1 | value = -1.0 | op =  | grad = 0.0 }" shape=record]
-	4304807040 [label="{ x2*w2 | value = 30.0 | op = * | grad = 0.0 }" shape=record]
-	4304806560 [label="{ x1*w1 + x2*w2 | value = 28.0 | op = + | grad = 0.0 }" shape=record]
-	4303036080 [label="{ w2 | value = 5.0 | op =  | grad = 0.0 }" shape=record]
-	4299966224 [label="{ x1 | value = 2.0 | op =  | grad = 0.0 }" shape=record]
-	4304806752 [label="{ n | value = 32.3 | op = + | grad = 0.0 }" shape=record]
-	4303296352 [label="{ x2 | value = 6.0 | op =  | grad = 0.0 }" shape=record]
-	4304804784 [label="{ b | value = 4.3 | op =  | grad = 0.0 }" shape=record]
-	4304806848 [label="{ o | value = 1.0 | op = tanh | grad = 0.0 }" shape=record]
-	4304806752 -> 4304806848
-	4300635264 -> 4304806416
-	4304806416 -> 4304806560
-	4304807040 -> 4304806560
-	4303296352 -> 4304807040
-	4304806560 -> 4304806752
-	4299966224 -> 4304806416
-	4304804784 -> 4304806752
-	4303036080 -> 4304807040
+	4307041792 [label="{ x1*w1 + x2*w2 | value = 28.0 | op = + | grad = 0.0 }" shape=record]
+	4307041312 [label="{ o | value = 1.0 | op = tanh | grad = 0.0 }" shape=record]
+	4305946192 [label="{ b | value = 4.3 | op =  | grad = 0.0 }" shape=record]
+	4306928752 [label="{ x1 | value = 2.0 | op =  | grad = 0.0 }" shape=record]
+	4306942576 [label="{ x2 | value = 6.0 | op =  | grad = 0.0 }" shape=record]
+	4306694272 [label="{ w2 | value = 5.0 | op =  | grad = 0.0 }" shape=record]
+	4307041456 [label="{ n | value = 32.3 | op = + | grad = 0.0 }" shape=record]
+	4307033920 [label="{ x1*w1 | value = -2.0 | op = * | grad = 0.0 }" shape=record]
+	4306095472 [label="{ w1 | value = -1.0 | op =  | grad = 0.0 }" shape=record]
+	4307037568 [label="{ x2*w2 | value = 30.0 | op = * | grad = 0.0 }" shape=record]
+	4307041456 -> 4307041312
+	4307041792 -> 4307041456
+	4306694272 -> 4307037568
+	4307037568 -> 4307041792
+	4305946192 -> 4307041456
+	4306942576 -> 4307037568
+	4306928752 -> 4307033920
+	4307033920 -> 4307041792
+	4306095472 -> 4307033920
 }
