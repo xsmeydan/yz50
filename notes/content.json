@@ -1,0 +1,361 @@
+{
+  "title": "Neural Network — İnteraktif Çalışma Defteri",
+  "hero": {
+    "eyebrow": "Yapay Sinir Ağları · İnteraktif Çalışma Defteri",
+    "title": "Neural Network",
+    "caption": "bilgi soldan sağa akar → her düğüm bir activation üretir"
+  },
+  "chapters": [
+    {
+      "id": "bolum1",
+      "number": "01",
+      "title": "Chapter 1",
+      "heading": "Neural Network Nedir?",
+      "subtitle": "Neuron'lar, layer'lar, weight'ler, bias'lar ve sigmoid ile \"aktivasyon\" üretimi.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Neural Network, girdileri alıp çıktılara dönüştüren çok büyük ve karmaşık bir fonksiyondur. Bir girdiyi işleyerek bir activation (aktivasyon) değeri üreten temel hesaplama birimidir."
+        },
+        {
+          "type": "callout",
+          "text": "Aktivasyon: Bir nöronun aldığı girdiler sonucunda ürettiği, nöronun ne kadar aktif olduğunu temsil eden değerdir."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Layer Nedir?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Layer, bir neural network içerisinde aynı seviyede bulunan nöronların oluşturduğu gruptur. Layer, neural network içerisinde bir grup neuron'un birlikte çalıştığı ve bir önceki layer'dan gelen bilgiyi işleyerek yeni activation değerleri ürettiği yapıdır. Bir layer'daki her neuron, önceki layer'dan gelen activation'ları farklı weight değerleriyle değerlendirir, bunları toplar, kendi bias değerini ekler ve activation function uygulayarak bir çıktı üretir. Bu nedenle aynı girdiyi alan neuron'lar, farklı weight ve bias değerlerine sahip oldukları için girdinin farklı özelliklerine veya pattern'lerine daha duyarlı olabilirler."
+        },
+        {
+          "type": "paragraph",
+          "text": "Layer'lar ardışık şekilde çalışır. İlk hidden layer doğrudan input'u (örneğin görüntünün pixel değerlerini) işlerken, sonraki layer'lar önceki layer'ın ürettiği activation'ları input olarak alır. Böylece network, bilgiyi katmandan katmana dönüştürerek daha basit özelliklerden daha karmaşık özelliklere doğru ilerleyebilir. Son layer ise bu işlenmiş bilgiyi kullanarak network'ün nihai çıktısını üretir."
+        },
+        {
+          "type": "paragraph",
+          "muted": true,
+          "text": "Bir neuron görüntüdeki bütün pixel'leri aynı önemde görmez. Weight'ler sayesinde bazı pixel'lerden veya pixel kombinasyonlarından gelen bilgilere daha duyarlı hale gelebilir. Bir layer'daki farklı neuron'lar farklı pattern'lere duyarlı olabilir. Layer ise bu farklı neuron'ların ürettiği bilgilerin tamamını bir sonraki aşamaya aktaran kolektif yapı gibi düşünülebilir."
+        },
+        {
+          "type": "layerGrid",
+          "items": [
+            {
+              "tag": "01 — Giriş",
+              "title": "Input Layer",
+              "description": "Network'e verinin girdiği katmandır."
+            },
+            {
+              "tag": "02 — İşlem",
+              "title": "Hidden Layer",
+              "description": "Input ile output arasında bulunan katmanlardır. Burada network girdiden ara özellikler/örüntüler çıkarmaya başlar."
+            },
+            {
+              "tag": "03 — Çıkış",
+              "title": "Output Layer",
+              "description": "Network'ün nihai çıktısını üretir."
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ağırlıklı toplam, bias ve sigmoid"
+        },
+        {
+          "type": "paragraph",
+          "text": "Peki bir neuron, önceki layer'dan gelen activation'ları tam olarak nasıl \"değerlendirip toplar\"? Önceki katmandaki tüm aktivasyonların ağırlıklı toplamı alınır, üzerine bias eklenir ve sonuç 0–1 aralığına sıkıştırılır. Bunun için klasik olarak sigmoid fonksiyonu kullanılır:"
+        },
+        {
+          "type": "formula",
+          "text": "z = w_1 a_1 + w_2 a_2 + ... + w_n a_n + b \\qquad a_{\\text{out}} = \\sigma(z) = \\dfrac{1}{1+e^{-z}}",
+          "note": "Weight'ler hangi pikselin ne kadar önemli olduğunu, bias ise nöronun ne kadar kolay/zor aktive olacağını belirler."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Sigmoid'in alternatifleri"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sigmoid'in bir sorunu var: eğrinin uçlarına (çok büyük veya çok küçük z) doğru gidildikçe eğim neredeyse sıfıra düşer, buna vanishing gradient (kaybolan gradyan) denir. Ağ derinleştikçe, geri yayılımda bu küçük eğimler zincirleme çarpılır ve gradyan neredeyse sıfırlanır; ağın ilk katmanları neredeyse hiç öğrenemez hale gelir. Bu yüzden günümüzde başka aktivasyon fonksiyonları da kullanılıyor:"
+        },
+        {
+          "type": "layerGrid",
+          "items": [
+            {
+              "tag": "Alternatif 1",
+              "title": "Tanh",
+              "description": "Sigmoid'e çok benzer ama çıktısı 0–1 yerine −1 ile 1 arasında. Ortalaması sıfıra daha yakın olduğu için sigmoid'den biraz daha iyi öğrenme performansı verir, ama vanishing gradient sorunu yine de var."
+            },
+            {
+              "tag": "Alternatif 2",
+              "title": "ReLU",
+              "description": "Bugün en yaygın kullanılan aktivasyon. Fonksiyon çok basit: max(0, z) — yani negatifse sıfır, pozitifse kendisi. Pozitif tarafta eğim hep 1 olduğu için vanishing gradient sorunu büyük ölçüde ortadan kalkıyor, hesaplaması da sigmoid'den çok daha hızlı (üstel işlem yok). Dezavantajı: bir nöron sürekli negatif tarafa düşerse eğim orada tamamen 0 olur ve o nöron \"ölür\", bir daha güncellenmez — buna \"dying ReLU\" deniyor."
+            },
+            {
+              "tag": "Alternatif 3",
+              "title": "Leaky ReLU",
+              "description": "ReLU'nun bu ölüm sorununu çözmek için negatif tarafa küçük bir eğim (örneğin 0.15) veriyor, tamamen düz sıfır yerine. Böylece o nöron da hâlâ biraz gradyan alıp toparlanabiliyor."
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ağ, sadece bir fonksiyondur"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bütün bu layer'lar birlikte tek bir dev fonksiyon oluşturur."
+        }
+      ]
+    },
+    {
+      "id": "bolum2",
+      "number": "02",
+      "title": "Chapter 2",
+      "heading": "Gradient Descent: Ağ Nasıl Öğrenir?",
+      "subtitle": "Cost function, minimum arayışı ve \"tepeden aşağı yuvarlanan top\" sezgisi.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Makine öğrenmesini klasik programlamadan ayıran şey şu: rakam tanımak için hiçbir zaman açık bir algoritma yazmıyoruz. Bunun yerine, etiketlenmiş binlerce örnek (training data) gösteriyoruz ve ağın 13.002 weight ve bias'ını bu örneklerde daha iyi performans verecek şekilde otomatik olarak ayarlamasını sağlıyoruz."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Cost function (maliyet fonksiyonu)"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ağ rastgele weight/bias ile başladığında elbette çok kötü performans gösterir. Bunu sayısallaştırmak için bir cost function tanımlarız: ağın verdiği çıktı ile olması gereken doğru çıktı arasındaki farkların karelerini toplarız."
+        },
+        {
+          "type": "formula",
+          "text": "C_0 = \\sum_{j} \\left(a_j^{(L)} - y_j\\right)^2",
+          "note": "Ağ doğru cevaba ne kadar yakınsa cost o kadar küçük, ne kadar \"kayıpsa\" o kadar büyük olur. Bu bir örnek için; tüm eğitim verisinin ortalaması alınınca tam maliyet fonksiyonu C elde edilir."
+        },
+        {
+          "type": "paragraph",
+          "muted": true,
+          "text": "Yani \"öğrenme\" aslında 13.002 girdili bu karmaşık cost fonksiyonunun minimumunu bulma işi, yani bir calculus problemidir."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tepeden aşağı: gradient descent"
+        },
+        {
+          "type": "paragraph",
+          "text": "13.002 boyutlu bir fonksiyonun minimumunu doğrudan çözmek pratik değil. Bunun yerine rastgele bir noktadan başlarız, o noktadaki eğimi (slope) hesaplarız ve eğimin ters yönünde küçük bir adım atarız. Bunu tekrar tekrar yaparak yerel bir minimuma (\"tepeden yuvarlanan top\" gibi) yaklaşırız. Çok boyutlu halinde bu vektöre gradient (\\nabla C) denir; negatif gradient bize en hızlı iniş yönünü gösterir."
+        },
+        {
+          "type": "callout",
+          "variant": "amber",
+          "text": "Not: Adım büyüklüğü eğimle orantılı olduğu için, minimuma yaklaştıkça adımlar otomatik olarak küçülür — bu da minimumu \"aşıp geçmeyi\" önler. Learning rate çok büyük seçilirse top minimumun etrafında zıplayıp durabilir."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Gradient ne anlama gelir?"
+        },
+        {
+          "type": "paragraph",
+          "text": "13.002 boyutlu negatif gradient vektörünün her bileşeni bize iki şey söyler: yön (o weight/bias artmalı mı azalmalı mı) ve büyüklük (bu değişikliğin ne kadar önemli olduğu — \"en çok kâr getiren\" değişiklikler). Bu vektörü verimli şekilde hesaplayan algoritmaya backpropagation denir; 4. ve 5. bölümlerde bunu detaylıca göreceğiz."
+        }
+      ]
+    },
+    {
+      "id": "bolum3",
+      "number": "03",
+      "title": "Chapter 3",
+      "heading": "Ağı Analiz Etmek: Gerçekte Ne Öğreniyor?",
+      "subtitle": "Umut ettiğimiz \"kenar → örüntü → rakam\" hiyerarşisi gerçekleşiyor mu?",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Eğitilen basit ağ (2 hidden layer, her biri 16 nöron), yeni gördüğü görüntülerin yaklaşık %96'sını doğru sınıflandırıyor. Hidden layer yapısıyla biraz oynayınca bu oran %98'e çıkabiliyor. Daha modern, gelişmiş ağlar ise %99,75 gibi bir doğruluğa ulaşabiliyor."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Beklenti vs. gerçeklik"
+        },
+        {
+          "type": "paragraph",
+          "text": "1. bölümdeki umudumuz, ikinci layer'ın kenarları (edge), üçüncü layer'ın da bunlardan döngü/çizgi gibi örüntüleri öğrenmesiydi. Gerçek ağın weight'lerine bakıldığında ise bu net kenarlar yerine neredeyse rastgele görünen, bulanık/blobsu örüntüler ortaya çıkıyor. Ağ, 13.002 boyutlu uzayda işini gören ama genelleştirilebilir olmayan bir yerel minimuma düşmüş gibi görünüyor."
+        },
+        {
+          "type": "callout",
+          "variant": "pink",
+          "text": "Çarpıcı örnek: Ağa tamamen rastgele bir gürültü görüntüsü verildiğinde, ağ bunun bir rakam olmadığından \"emin değilim\" demiyor — tam tersine, bu gürültünün bir \"5\" olduğunu gerçek bir 5 görüntüsü kadar yüksek güvenle iddia ediyor. Yani ağ rakam tanıyabiliyor ama rakam çizmeyi hiç bilmiyor."
+        },
+        {
+          "type": "paragraph",
+          "muted": true,
+          "text": "Bunun nedeni eğitim ortamının çok kısıtlı olması: ağın \"evreni\" yalnızca ortalanmış, sabit boyutlu rakamlardan ibaret ve cost function ona hiçbir zaman belirsizlik hissetmesi için bir teşvik vermedi. Bu basit ağ 1980'ler-1990'ların teknolojisi; modern varyantları (örn. convolutional neural network) anlamak için önce bunu kavramak gerekiyor."
+        }
+      ]
+    },
+    {
+      "id": "bolum4",
+      "number": "04",
+      "title": "Chapter 4",
+      "heading": "Backpropagation Gerçekte Ne Yapıyor?",
+      "subtitle": "Tek bir eğitim örneğinin weight ve bias'lardan ne \"istediğini\" sezgisel olarak takip ediyoruz.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Backpropagation, negatif gradient vektörünü verimli şekilde hesaplayan algoritmadır. Sezgisel olarak: bir \"2\" rakamı örneği ağa verildiğinde, çıktı katmanındaki \"2\" nöronunun aktivasyonunun artmasını, diğer 9 nöronun ise azalmasını isteriz — ve bu nüdürmelerin büyüklüğü, o nöronun hedeften ne kadar uzak olduğuyla orantılı olmalıdır."
+        },
+        {
+          "type": "paragraph",
+          "text": "Bir çıktı nöronunun aktivasyonunu artırmak için üç yol vardır:"
+        },
+        {
+          "type": "layerGrid",
+          "items": [
+            {
+              "tag": "Yol 1",
+              "title": "Bias'ı artır",
+              "description": "En basit yol. Bias, ağırlıklı toplama sabit ve öngörülebilir bir şekilde eklenir."
+            },
+            {
+              "tag": "Yol 2",
+              "title": "Weight'leri değiştir",
+              "description": "En \"parlak\" (en aktif) önceki nöronlara giden weight'leri artırmak en büyük etkiyi yaratır."
+            },
+            {
+              "tag": "Yol 3",
+              "title": "Önceki aktivasyonları değiştir",
+              "description": "Doğrudan kontrol edemesek de, hangi yönde değişmelerini \"istediğimizi\" not ederiz."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Hebbian teorisi ile bağlantı: Weight'leri, ilgili aktivasyonla orantılı şekilde değiştirmek, nörobilimdeki \"birlikte ateşleyen nöronlar birlikte kablolanır\" (neurons that fire together wire together) fikrini andırıyor. \"2\" görülürken aktif olan nöronlar, \"2\"yi temsil eden çıktıyla daha güçlü bağlanır."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Geriye doğru yayılım"
+        },
+        {
+          "type": "paragraph",
+          "text": "Önceki katmandaki bir aktivasyonu doğrudan değiştiremeyiz — o da kendi weight ve bias'ları tarafından belirlenir. Ama şunu not edebiliriz: o katmandaki her nöron için \"bu ne kadar artmalı/azalmalı\" bilgisini, o katmandan sonraki tüm nöronların isteklerini toplayarak elde ederiz. Bu toplanan istekler, bir önceki katmana aynı süreci uygulamak için kullanılır — işte \"geriye doğru yayılma\" (backpropagation) budur. Bunu ağın başına kadar tekrarlarız."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tüm örnekler ve mini-batch'ler"
+        },
+        {
+          "type": "paragraph",
+          "text": "Yukarıdaki süreç sadece tek bir eğitim örneğinin isteğini kaydeder. Eğer sadece bir \"2\" örneğini dinlersek ağ her şeyi \"2\" sanmaya başlar! Bu yüzden bu süreç her eğitim örneği için tekrarlanır ve tüm istekler ortalanır — bu ortalama, (negatif) gradient'e orantılıdır."
+        },
+        {
+          "type": "paragraph",
+          "muted": true,
+          "text": "Pratikte her adımda on binlerce örneği toplamak çok yavaş olurdu. Bunun yerine veriyi rastgele karıştırıp küçük mini-batch'lere (örn. 100'erli) bölüyoruz ve her mini-batch için bir adım atıyoruz. Bu gerçek gradient'in sadece bir yaklaşımını verir — sanki dikkatli değil de hızlı adımlarla \"sarhoş yürüyüşü\" yapan biri gibi — ama çok daha hızlıdır. Bu yönteme Stochastic Gradient Descent (SGD) denir."
+        }
+      ]
+    },
+    {
+      "id": "bolum5",
+      "number": "05",
+      "title": "Chapter 5",
+      "heading": "Backpropagation'ın Matematiği",
+      "subtitle": "Aynı sezgiyi zincir kuralı (chain rule) ile formel olarak ifade ediyoruz.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Her katmanda tek bir nöron olan aşırı basit bir ağ düşünelim: 3 weight, 3 bias. Son iki nöron arasındaki bağlantıya odaklanalım. L son katmanı, a^{(L-1)} ise ondan önceki nöronun aktivasyonunu göstersin (üst simgeler burada üs değil, sadece katman numarası)."
+        },
+        {
+          "type": "formula",
+          "text": "C_0 = \\left(a^{(L)} - y\\right)^2 \\qquad z^{(L)} = w^{(L)} a^{(L-1)} + b^{(L)} \\qquad a^{(L)} = \\sigma\\!\\left(z^{(L)}\\right)",
+          "note": "y: istenen çıktı · z^{(L)}: ağırlıklı toplam + bias · a^{(L)}: sigmoid sonrası aktivasyon"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Zincir kuralıyla (chain rule) hassasiyeti bulmak"
+        },
+        {
+          "type": "paragraph",
+          "text": "Amacımız: w^{(L)}'e küçük bir dokunuşun (nudge) cost'u ne kadar değiştirdiğini bulmak, yani \\dfrac{\\partial C_0}{\\partial w^{(L)}}'yi hesaplamak. w^{(L)}'e yapılan küçük bir değişiklik önce z^{(L)}'yi, o da a^{(L)}'yi, o da C_0'ı etkiler. Zincir kuralı bu üç oranı çarpmamızı söyler:"
+        },
+        {
+          "type": "formula",
+          "text": "\\frac{\\partial C_0}{\\partial w^{(L)}} = \\frac{\\partial z^{(L)}}{\\partial w^{(L)}} \\cdot \\frac{\\partial a^{(L)}}{\\partial z^{(L)}} \\cdot \\frac{\\partial C_0}{\\partial a^{(L)}}"
+        },
+        {
+          "type": "callout",
+          "text": "Sezgi: İlk terim, önceki nöron ne kadar \"parlaksa\" (aktifse) weight değişiminin o kadar güçlü etki ettiğini söylüyor — yine \"birlikte ateşleyenler birlikte kablolanır\" fikri. Son terim ise, çıktı hedeften ne kadar uzaksa küçük dokunuşların cost'u o kadar çok değiştirdiğini gösteriyor."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tüm ağırlıklar, biaslar ve tüm eğitim verisi için"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tek bir örnek için \\partial C_0 hesapladık; gerçek cost C, tüm örneklerin ortalamasıdır, o yüzden gradient'in her bileşeni de tüm örnekler üzerinden ortalama alınarak bulunur:"
+        },
+        {
+          "type": "formula",
+          "text": "\\frac{\\partial C}{\\partial w^{(L)}} = \\frac{1}{n}\\sum_{k=0}^{n-1} \\frac{\\partial C_k}{\\partial w^{(L)}}"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bias için hesap neredeyse aynıdır, tek fark \\dfrac{\\partial z^{(L)}}{\\partial b^{(L)}} = 1 olmasıdır — yani bias'ın z üzerindeki etkisi doğrudan ve sabittir."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Önceki katmanlara geriye doğru gitmek"
+        },
+        {
+          "type": "paragraph",
+          "text": "a^{(L-1)}'i doğrudan değiştiremesek de, cost'un ona duyarlılığını yine zincir kuralıyla yazabiliriz:"
+        },
+        {
+          "type": "formula",
+          "text": "\\frac{\\partial C_0}{\\partial a^{(L-1)}} = \\frac{\\partial z^{(L)}}{\\partial a^{(L-1)}} \\cdot \\frac{\\partial a^{(L)}}{\\partial z^{(L)}} \\cdot \\frac{\\partial C_0}{\\partial a^{(L)}} \\qquad \\text{burada} \\quad \\frac{\\partial z^{(L)}}{\\partial a^{(L-1)}} = w^{(L)}"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bu, a^{(L-1)}'in kendi weight ve bias'larına bağlı olduğunu hatırlarsak, zincirin daha geriye uzadığı ve aynı sürecin tekrar tekrar uygulanabileceği anlamına gelir — geriye yayılma tam olarak budur."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Birden fazla nöronlu katmanlar"
+        },
+        {
+          "type": "paragraph",
+          "text": "Her katmanda birden fazla nöron olduğunda mantık aynı kalır, sadece indeks sayısı artar. k, (L-1) katmanındaki; j ise L katmanındaki nöronu göstersin. Tek fark şu: k. nöron, L katmanındaki birden fazla nörona bağlı olduğu için, cost'a olan etkisi bu yolların hepsinin toplamı olur:"
+        },
+        {
+          "type": "formula",
+          "text": "\\frac{\\partial C_0}{\\partial a_k^{(L-1)}} = \\sum_{j=0}^{n_L-1} \\frac{\\partial z_j^{(L)}}{\\partial a_k^{(L-1)}} \\cdot \\frac{\\partial a_j^{(L)}}{\\partial z_j^{(L)}} \\cdot \\frac{\\partial C_0}{\\partial a_j^{(L)}}",
+          "note": "Toplam işareti dışında, tek-nöronlu durumla birebir aynı mantık."
+        },
+        {
+          "type": "paragraph",
+          "text": "Bu zincirleri ağın başına kadar tekrarlayarak, 13.002 weight ve bias'ın her biri için \\partial C/\\partial w ve \\partial C/\\partial b değerlerini — yani tam gradient vektörünü — hesaplayabiliriz. İşte gradient descent'in her adımında attığımız \"downhill\" adımı belirleyen şey budur."
+        },
+        {
+          "type": "callout",
+          "variant": "amber",
+          "text": "Özet: Backpropagation = zincir kuralının, bir ağın 13.002 parametresi üzerinde sistematik olarak, katmandan katmana geriye doğru uygulanmasıdır. Matris çarpımı ileri yönde bilgiyi taşırken, zincir kuralı da geriye doğru \"hangi düğmeyi ne kadar çevirmeliyim\" sorusunu cevaplar."
+        }
+      ]
+    }
+  ],
+  "footer": "YZ50 · Neural Network Çalışma Defteri"
+}
