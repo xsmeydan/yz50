@@ -424,3 +424,170 @@ plt.title("After tanh")
 plt.show()
 
 W1 = torch.randn((30, 200), requires_grad=True)
+
+embed_dim = 10
+hidden_dim = 200
+
+embed_table = torch.randn((27, embed_dim),requires_grad=True)
+
+W1 = torch.randn((3 * embed_dim, hidden_dim),requires_grad=True)
+b1 = torch.randn(hidden_dim,requires_grad=True)
+
+W2 = torch.randn((hidden_dim, 27),requires_grad=True)
+b2 = torch.randn(27,requires_grad=True)
+
+embedding = embed_table[X_train[:32]]
+
+h = embedding.flatten(1, 2) @ W1 + b1
+h_tanh = h.tanh()
+
+logits = h_tanh @ W2 + b2
+
+initial_loss = F.cross_entropy(logits,Y_train[:32])
+
+print("Bad init loss:", initial_loss.item())
+
+plt.figure(figsize=(8, 5))
+
+plt.hist(
+    h.detach().flatten().numpy(),
+    bins=50
+)
+
+plt.title("Bad init before tanh")
+plt.xlabel("h")
+plt.ylabel("count")
+plt.show()
+
+plt.figure(figsize=(8, 5))
+
+plt.hist(
+    h_tanh.detach().flatten().numpy(),
+    bins=50
+)
+
+plt.title("Bad init after tanh")
+plt.xlabel("tanh(h)")
+plt.ylabel("count")
+plt.show()
+
+embed_table = torch.randn(
+    (27, embed_dim),
+    requires_grad=True
+)
+
+
+W1 = (torch.randn((3 * embed_dim, hidden_dim))* (5 / 3)/ ((3 * embed_dim) ** 0.5)).requires_grad_()
+b1 = (torch.randn(hidden_dim) * 0.01).requires_grad_()
+
+W2 = (torch.randn((hidden_dim, 27)) * 0.01).requires_grad_()
+b2 = torch.zeros(27,requires_grad=True)
+
+embedding = embed_table[X_train[:32]]
+
+h = embedding.flatten(1, 2) @ W1 + b1
+h_tanh = h.tanh()
+
+logits = h_tanh @ W2 + b2
+
+initial_loss = F.cross_entropy(logits,Y_train[:32])
+
+print("Kaiming init loss:", initial_loss.item())
+
+plt.figure(figsize=(8, 5))
+plt.hist(h.detach().flatten().numpy(), bins=50)
+plt.title("Kaiming init before tanh")
+plt.xlabel("h")
+plt.ylabel("count")
+plt.show()
+
+
+plt.figure(figsize=(8, 5))
+plt.hist(h_tanh.detach().flatten().numpy(), bins=50)
+plt.title("Kaiming init after tanh")
+plt.xlabel("tanh(h)")
+plt.ylabel("count")
+plt.show()
+
+import torch.nn as nn
+
+embed_dim = 10
+hidden_dim = 200
+batch_size = 32
+steps = 5000
+lr = 0.1
+
+
+def train_model(use_batchnorm=False):
+
+    embed_table = torch.randn((27, embed_dim), requires_grad=True)
+    W1 = (torch.randn((3 * embed_dim, hidden_dim)) * (5 / 3) / ((3 * embed_dim) ** 0.5)).requires_grad_()
+    b1 = (torch.randn(hidden_dim) * 0.01).requires_grad_()
+    W2 = (torch.randn((hidden_dim, 27)) * 0.01).requires_grad_()
+    b2 = torch.zeros(27, requires_grad=True)
+
+    if use_batchnorm:
+        bn = nn.BatchNorm1d(hidden_dim)
+        bn.train()
+    else:
+        bn = None
+
+    parameters = [embed_table, W1, b1, W2, b2]
+
+    if use_batchnorm:
+        parameters += list(bn.parameters())
+
+    for i in range(steps):
+
+        ix = torch.randint(0, X_train.shape[0], (batch_size,))
+
+        X_batch = X_train[ix]
+        Y_batch = Y_train[ix]
+
+        embedding = embed_table[X_batch]
+
+        h = embedding.flatten(1, 2) @ W1 + b1
+
+        if use_batchnorm:
+            h = bn(h)
+
+        h = h.tanh()
+
+        logits = h @ W2 + b2
+
+        loss = F.cross_entropy(logits, Y_batch)
+
+        for p in parameters:
+            p.grad = None
+
+        loss.backward()
+
+        for p in parameters:
+            p.data += -lr * p.grad
+
+    if use_batchnorm:
+        bn.eval()
+
+    with torch.no_grad():
+
+        embedding = embed_table[X_dev]
+
+        h = embedding.flatten(1, 2) @ W1 + b1
+
+        if use_batchnorm:
+            h = bn(h)
+
+        h = h.tanh()
+
+        logits = h @ W2 + b2
+
+        dev_loss = F.cross_entropy(logits, Y_dev)
+
+    return dev_loss.item()
+
+
+loss_no_bn = train_model(False)
+loss_bn = train_model(True)
+
+print("without batchNorm:", loss_no_bn)
+print("with batchNorm:", loss_bn)

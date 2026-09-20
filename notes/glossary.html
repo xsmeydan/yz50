@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YZ50 — Machine Learning & Neural Networks Glossary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>
+  .glossary-nav {
+    position: sticky;
+    top: 0;
+    background: #0a0f1e;
+    padding: 12px 0;
+    border-bottom: 1px solid #26325a;
+    z-index: 100;
+  }
+  .glossary-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .glossary-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+  .glossary-nav a {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #8b96b8;
+    text-decoration: none;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .glossary-nav a:hover {
+    background: #1a2542;
+    color: #e2e8f0;
+  }
+  .glossary-nav a.active {
+    background: #26325a;
+    color: #e2e8f0;
+    border-color: #38bdf8;
+  }
+  .glossary-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(180deg, #0a0f1e 0%, #0f172a 100%);
+  }
+  .glossary-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    color: #e2e8f0;
+  }
+  .glossary-header .subtitle {
+    color: #8b96b8;
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .glossary-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  .glossary-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+    color: #e2e8f0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #26325a;
+  }
+  .glossary-item {
+    background: #0f172a;
+    border: 1px solid #26325a;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .glossary-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    color: #5eead4;
+  }
+  .glossary-item p {
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .glossary-item .example {
+    background: #1a2542;
+    border-left: 3px solid #38bdf8;
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .glossary-item .example code {
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+  }
+  .glossary-item .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .glossary-item .comparison-item {
+    background: #1a2542;
+    padding: 12px;
+    border-radius: 4px;
+  }
+  .glossary-item .comparison-item strong {
+    color: #fbbf24;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .glossary-item .comparison-item span {
+    color: #94a3b8;
+    font-size: 0.9rem;
+  }
+  .glossary-item .list-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #26325a;
+  }
+  .glossary-item .list-item:last-child {
+    border-bottom: none;
+  }
+  .glossary-item .list-item strong {
+    color: #e2e8f0;
+  }
+  .glossary-item .formula {
+    background: #1a2542;
+    padding: 16px;
+    border-radius: 4px;
+    margin: 12px 0;
+    text-align: center;
+  }
+  .glossary-item .flow-diagram {
+    text-align: center;
+    padding: 16px;
+    background: #1a2542;
+    border-radius: 4px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+  .cheat-sheet {
+    background: linear-gradient(135deg, #1a2542 0%, #26325a 100%);
+    border: 2px solid #38bdf8;
+    border-radius: 12px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .cheat-sheet h3 {
+    color: #fbbf24;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .cheat-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  .cheat-sheet-item {
+    background: rgba(10, 15, 30, 0.5);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #38bdf8;
+  }
+  .cheat-sheet-item strong {
+    color: #5eead4;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .cheat-sheet-item span {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .mental-model {
+    background: linear-gradient(135deg, #1a2542 0%, #2d3748 100%);
+    border: 2px solid #fbbf24;
+    border-radius: 12px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .mental-model h3 {
+    color: #fbbf24;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .mental-model .chain {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: #e2e8f0;
+    line-height: 2;
+  }
+  .confused-concepts {
+    background: #1a2542;
+    border-radius: 12px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .confused-concepts h3 {
+    color: #f472b6;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .confused-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid #26325a;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .confused-pair-item {
+    padding: 20px;
+  }
+  .confused-pair-item:first-child {
+    border-right: 1px solid #26325a;
+    background: rgba(56, 189, 248, 0.1);
+  }
+  .confused-pair-item strong {
+    color: #5eead4;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+  }
+  .confused-pair-item span {
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+  .formula-section {
+    background: #1a2542;
+    border-radius: 12px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .formula-section h3 {
+    color: #fbbf24;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .formula-item {
+    background: rgba(10, 15, 30, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #38bdf8;
+  }
+  .formula-item strong {
+    color: #5eead4;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .formula-item .math {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  .big-picture {
+    background: linear-gradient(135deg, #26325a 0%, #1e3a5f 100%);
+    border: 2px solid #5eead4;
+    border-radius: 12px;
+    padding: 32px;
+    margin: 32px 0;
+    text-align: center;
+  }
+  .big-picture h3 {
+    color: #5eead4;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .big-picture p {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+  <div class="glossary-header">
+    <h1>YZ50 — Machine Learning & Neural Networks Glossary</h1>
+    <p class="subtitle">Amaç: YZ50 boyunca karşılaşılan kavramları sadece tanımlamak değil, aralarındaki bağlantıları ve neden kullanıldıklarını anlamak.</p>
+  </div>
+
+  <nav class="glossary-nav">
+    <div class="glossary-nav-inner">
+      <a href="#section1" class="active">1. Temel ML</a>
+      <a href="#section2">2. Dataset</a>
+      <a href="#section3">3. NLP</a>
+      <a href="#section4">4. N-Gram</a>
+      <a href="#section5">5. Language Model</a>
+      <a href="#section6">6. One-Hot</a>
+      <a href="#section7">7. Embedding</a>
+      <a href="#section8">8. Neural Network</a>
+      <a href="#section9">9. Linear Layer</a>
+      <a href="#section10">10. Activation</a>
+      <a href="#section11">11. Sigmoid</a>
+      <a href="#section12">12. Tanh</a>
+      <a href="#section13">13. ReLU</a>
+      <a href="#section14">14. Logits</a>
+      <a href="#section15">15. Softmax</a>
+      <a href="#section16">16. Loss</a>
+      <a href="#section17">17. Cross-Entropy</a>
+      <a href="#section18">18. NLL</a>
+      <a href="#section19">19. Gradient</a>
+      <a href="#section20">20. Derivative</a>
+      <a href="#section21">21. Backprop</a>
+      <a href="#section22">22. Gradient Descent</a>
+      <a href="#section23">23. Learning Rate</a>
+      <a href="#section24">24. Optimizer</a>
+      <a href="#section25">25. Forward Pass</a>
+      <a href="#section26">26. Backward Pass</a>
+      <a href="#section27">27. Batch</a>
+      <a href="#section28">28. Batch Size</a>
+      <a href="#section29">29. Epoch</a>
+      <a href="#section30">30. Iteration</a>
+      <a href="#section31">31. Shuffle</a>
+      <a href="#section32">32. Sampling</a>
+      <a href="#section33">33. Overfitting</a>
+      <a href="#section34">34. Underfitting</a>
+      <a href="#section35">35. Generalization</a>
+      <a href="#section36">36. Saturation</a>
+      <a href="#section37">37. Vanishing Gradient</a>
+      <a href="#section38">38. Exploding Gradient</a>
+      <a href="#section39">39. Initialization</a>
+      <a href="#section40">40. Kaiming</a>
+      <a href="#section41">41. Batch Norm</a>
+      <a href="#section42">42. Tensor</a>
+      <a href="#section43">43. Tensor Shape</a>
+      <a href="#section44">44. Dimension</a>
+      <a href="#section45">45. requires_grad</a>
+      <a href="#section46">46. backward()</a>
+      <a href="#section47">47. .grad</a>
+      <a href="#section48">48. no_grad()</a>
+      <a href="#section49">49. nn.Module</a>
+      <a href="#section50">50. nn.Linear</a>
+      <a href="#section51">51. nn.Embedding</a>
+      <a href="#section52">52. Training Loop</a>
+      <a href="#section53">53. Karıştırılanlar</a>
+      <a href="#section54">54. Mental Model</a>
+      <a href="#section55">55. Cheat Sheet</a>
+      <a href="#section56">56. Formüller</a>
+      <a href="#section57">57. Büyük Resim</a>
+    </div>
+  </nav>
+
+  <div class="glossary-section">
+
+    <!-- ============ SECTION 1 ============ -->
+    <section id="section1">
+      <h2>1. Temel Makine Öğrenmesi Kavramları</h2>
+
+      <div class="glossary-item">
+        <h3>Machine Learning</h3>
+        <p>Machine Learning (ML), bilgisayarın açıkça her kuralı programlamak yerine veriden bir örüntü öğrenmesini sağlayan yöntemler bütünüdür.</p>
+        <div class="comparison">
+          <div class="comparison-item">
+            <strong>Klasik programlama:</strong>
+            <span>Rules + Data → Output</span>
+          </div>
+          <div class="comparison-item">
+            <strong>Machine Learning:</strong>
+            <span>Data + Expected Output → Model</span>
+          </div>
+        </div>
+        <p>Model daha sonra:</p>
+        <div class="flow-diagram">
+          New Data → Model → Prediction
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Model</h3>
+        <p>Model, veriden öğrenilmiş parametreler ve matematiksel işlemlerden oluşan tahmin mekanizmasıdır.</p>
+        <div class="example">
+          <code>Örneğin basit bir linear model:<br>
+          y = wx + b<br><br>
+          Burada:<br>
+          - w → weight<br>
+          - b → bias<br>
+          - x → input<br>
+          - y → prediction</code>
+        </div>
+        <p>Training sırasında model w ve b değerlerini öğrenir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Parameter</h3>
+        <p>Modelin training sırasında öğrendiği değerlerdir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          y = wx + b<br><br>
+          w ve b parametredir.</code>
+        </div>
+        <p>Ne kadar çok parametre varsa modelin öğrenebileceği fonksiyon ailesi genellikle o kadar büyür.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Hyperparameter</h3>
+        <p>Modelin kendisinin öğrenmediği, training başlamadan önce bizim belirlediğimiz ayarlardır.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          - learning rate<br>
+          - batch size<br>
+          - number of layers<br>
+          - hidden layer size<br>
+          - number of training steps</code>
+        </div>
+        <div class="comparison">
+          <div class="comparison-item">
+            <strong>Parameter</strong>
+            <span>→ model öğrenir</span>
+          </div>
+          <div class="comparison-item">
+            <strong>Hyperparameter</strong>
+            <span>→ biz belirleriz</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 2 ============ -->
+    <section id="section2">
+      <h2>2. Dataset Kavramları</h2>
+
+      <div class="glossary-item">
+        <h3>Dataset</h3>
+        <p>Modelin öğrenmesi veya değerlendirilmesi için kullanılan veri kümesidir.</p>
+        <div class="example">
+          <code>Language modeling'de örneğin:<br>
+          "hello world"<br>
+          "machine learning"<br>
+          "deep learning"<br>
+          gibi metinlerden oluşabilir.</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Training Set</h3>
+        <p>Modelin öğrenmek için kullandığı veri. Model parametrelerini bu veri üzerinden günceller.</p>
+        <div class="flow-diagram">
+          Training data<br>
+          ↓<br>
+          Prediction<br>
+          ↓<br>
+          Loss<br>
+          ↓<br>
+          Backpropagation<br>
+          ↓<br>
+          Parameter update
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Dev / Validation Set</h3>
+        <p>Modelin training sırasında değerlendirilmesi ve hyperparameter seçiminde kullanılan veri. Model bu verinin üzerinde doğrudan öğrenmemelidir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          Train → model learns<br>
+          Dev   → model decisions are evaluated<br>
+          Test  → final evaluation</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Test Set</h3>
+        <p>Modelin training ve model seçimi tamamlandıktan sonra final performansını ölçmek için kullanılan veri. Test setine mümkün olduğunca en son bakılır.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Train / Dev / Test Split</h3>
+        <p>Dataset'in farklı amaçlarla ayrılmasıdır.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          80% → Train<br>
+          10% → Dev<br>
+          10% → Test</code>
+        </div>
+        <p>Ama oran probleme göre değişebilir.</p>
+        <div class="comparison">
+          <div class="comparison-item">
+            <strong>Train</strong>
+            <span>→ Learn</span>
+          </div>
+          <div class="comparison-item">
+            <strong>Dev</strong>
+            <span>→ Tune</span>
+          </div>
+          <div class="comparison-item">
+            <strong>Test</strong>
+            <span>→ Final evaluation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Data Leakage</h3>
+        <p>Modelin normalde prediction sırasında sahip olmaması gereken bilgilerin training'e sızmasıdır. Bu durum modelin gerçek hayattaki performansını olduğundan iyi gösterebilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 3 ============ -->
+    <section id="section3">
+      <h2>3. NLP ve Language Modeling</h2>
+
+      <div class="glossary-item">
+        <h3>NLP</h3>
+        <p>Natural Language Processing, bilgisayarların insan dilini işlemesini sağlayan alan.</p>
+        <div class="example">
+          <code>Örnekler:<br>
+          - text classification<br>
+          - translation<br>
+          - summarization<br>
+          - question answering<br>
+          - language modeling<br>
+          - sentiment analysis</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Token</h3>
+        <p>Modelin işlediği temel metin birimidir.</p>
+        <div class="example">
+          <code>Token:<br>
+          - karakter olabilir<br>
+          - kelime olabilir<br>
+          - kelime parçası olabilir</code>
+        </div>
+        <div class="example">
+          <code>Örneğin:<br>
+          "hello world"<br>
+          şu şekilde tokenize edilebilir:<br>
+          ["hello", "world"]<br><br>
+          veya karakter seviyesinde:<br>
+          ["h", "e", "l", "l", "o", " ", "w", ...]</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Vocabulary</h3>
+        <p>Modelin bildiği bütün tokenların kümesidir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          Vocabulary:<br>
+          ["a", "b", "c", ..., "z", "."]<br><br>
+          27 token varsa:<br>
+          vocab_size = 27</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Token ID</h3>
+        <p>Her token'a verilen sayısal kimliktir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          "a" → 0<br>
+          "b" → 1<br>
+          "c" → 2<br>
+          ...</code>
+        </div>
+        <p>Model doğrudan "a" veya "hello" ile matematik yapmaz.</p>
+        <div class="flow-diagram">
+          Text<br>
+          ↓<br>
+          Token<br>
+          ↓<br>
+          Token ID<br>
+          ↓<br>
+          Tensor
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Sequence</h3>
+        <p>Tokenların belirli bir sıradaki dizisidir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          ["the", "cat", "sat"]<br>
+          bir sequence'dir.</code>
+        </div>
+        <p>Language modeling'de sıra önemlidir çünkü model context'i sıradan öğrenir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Context</h3>
+        <p>Modelin mevcut prediction'ı yaparken kullandığı önceki tokenlardır.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          "The cat is"<br>
+          context ise modelin:<br>
+          "The cat is ___"<br>
+          sonraki tokenı tahmin etmesi beklenir.</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4 ============ -->
+    <section id="section4">
+      <h2>4. N-Gram</h2>
+
+      <div class="glossary-item">
+        <h3>N-Gram</h3>
+        <p>Ardışık n token'dan oluşan parçadır.</p>
+        <div class="example">
+          <code>n = 1 → unigram<br>
+          n = 2 → bigram<br>
+          n = 3 → trigram</code>
+        </div>
+        <div class="example">
+          <code>Örneğin:<br>
+          "I love machine learning"</code>
+        </div>
+        <div class="list-item"><strong>Unigram:</strong> "I", "love", "machine", "learning"</div>
+        <div class="list-item"><strong>Bigram:</strong> "I love", "love machine", "machine learning"</div>
+        <div class="list-item"><strong>Trigram:</strong> "I love machine", "love machine learning"</div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Unigram</h3>
+        <p>Tek tokenlık n-gram. En basit language model yaklaşımıdır. Model sadece tokenların genel görülme sıklığına bakabilir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Bigram</h3>
+        <p>İki tokenlık n-gram. Bir tokenın kendisinden önce gelen tokena bağlı olduğunu varsayar:</p>
+        <div class="formula">P(x_t | x_{t-1})</div>
+        <div class="example">
+          <code>Örneğin:<br>
+          P("cat" | "the")</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Trigram</h3>
+        <p>Üç tokenlık n-gram. İki önceki tokenı context olarak kullanır:</p>
+        <div class="formula">P(x_t | x_{t-2}, x_{t-1})</div>
+        <div class="example">
+          <code>Örneğin:<br>
+          P("sat" | "the", "cat")</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>N-Gram Count</h3>
+        <p>Bir n-gram'ın dataset içinde kaç kez görüldüğünü tutar.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          "the cat" → 15<br>
+          "the dog" → 8</code>
+        </div>
+        <p>Bu count'lar conditional probability hesaplamak için kullanılabilir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Conditional Probability</h3>
+        <p>Bir olayın başka bir olaya bağlı olma olasılığıdır.</p>
+        <p>Language modeling:</p>
+        <div class="formula">P(next token | context)</div>
+        <div class="example">
+          <code>Örneğin:<br>
+          P("cat" | "the")</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 5 ============ -->
+    <section id="section5">
+      <h2>5. Language Model</h2>
+
+      <div class="glossary-item">
+        <h3>Language Model</h3>
+        <p>Bir dil dizisindeki tokenların olasılığını modelleyen sistemdir.</p>
+        <p>Temel görev: Verilen context'e göre bir sonraki tokenın ne olacağını tahmin etmek.</p>
+        <div class="flow-diagram">
+          "The cat is"<br>
+          ↓<br>
+          Model<br>
+          ↓<br>
+          "sleeping" → probability<br>
+          "running"  → probability<br>
+          "blue"     → probability<br>
+          ...
+        </div>
+        <p>Modern language model'ler bunu neural network kullanarak yapabilir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Next-Token Prediction</h3>
+        <p>Language model'in temel görevlerinden biri.</p>
+        <div class="example">
+          <code>Input:<br>
+          "The cat"<br><br>
+          Target:<br>
+          "is"</code>
+        </div>
+        <p>Model:</p>
+        <div class="flow-diagram">
+          "The cat" → probabilities for next token
+        </div>
+        <p>üretir. Training sırasında modelin tahmini gerçek next token ile karşılaştırılır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 6 ============ -->
+    <section id="section6">
+      <h2>6. One-Hot Encoding</h2>
+
+      <div class="glossary-item">
+        <h3>One-Hot Vector</h3>
+        <p>Bir tokenı vocabulary içindeki konumuyla temsil eden vektördür.</p>
+        <div class="example">
+          <code>Vocabulary:<br>
+          [a, b, c, d]<br><br>
+          c:<br>
+          [0, 0, 1, 0]</code>
+        </div>
+        <p>Özellikleri:</p>
+        <div class="list-item"><strong>vector length</strong> = vocabulary size</div>
+        <div class="list-item"><strong>yalnızca bir eleman</strong> 1</div>
+        <div class="list-item"><strong>diğerleri</strong> 0</div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Problem</h3>
+        <p>One-hot representation tokenlar arasındaki anlamsal ilişkileri ifade etmez.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          cat → [1,0,0]<br>
+          dog → [0,1,0]</code>
+        </div>
+        <p>Model açısından bu iki tokenın birbirine ne kadar benzediğini doğrudan göstermez. Bu nedenle embedding kullanılır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 7 ============ -->
+    <section id="section7">
+      <h2>7. Embedding</h2>
+
+      <div class="glossary-item">
+        <h3>Embedding</h3>
+        <p>Bir token ID'sini öğrenilebilir yoğun bir vektöre dönüştürür.</p>
+        <div class="flow-diagram">
+          Token ID<br>
+          ↓<br>
+          Embedding<br>
+          ↓<br>
+          Dense vector
+        </div>
+        <div class="example">
+          <code>Örneğin:<br>
+          "cat" → [0.21, -0.44, 0.83, ...]</code>
+        </div>
+        <p>Embedding vector'ünün boyutu vocabulary size olmak zorunda değildir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          vocab_size = 27<br>
+          embedding_dim = 10<br>
+          olabilir.</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Embedding Dimension</h3>
+        <p>Her tokenın embedding vector'ünde kaç sayı olduğunu belirtir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          embedding_dim = 100<br>
+          ise:<br>
+          token → 100-dimensional vector<br>
+          olur.</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Embedding Matrix</h3>
+        <p>Tüm token embedding'lerinin bulunduğu matrix.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          vocab_size = 27<br>
+          embedding_dim = 10<br>
+          ise:<br>
+          Embedding matrix shape:<br><br>
+          27 × 10</code>
+        </div>
+        <p>Her satır bir tokenın embedding'idir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 8 ============ -->
+    <section id="section8">
+      <h2>8. Neural Network</h2>
+
+      <div class="glossary-item">
+        <h3>Neural Network</h3>
+        <p>Input'u parametreli matematiksel işlemlerden geçirerek output üreten modeldir.</p>
+        <div class="flow-diagram">
+          Input<br>
+          ↓<br>
+          Linear Layer<br>
+          ↓<br>
+          Activation<br>
+          ↓<br>
+          Linear Layer<br>
+          ↓<br>
+          Output
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Neuron</h3>
+        <p>Bir neuron kabaca weighted sum + bias + activation işlemidir.</p>
+        <div class="formula">z = w₁x₁ + w₂x₂ + ... + b</div>
+        <div class="formula">output = activation(z)</div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Layer</h3>
+        <p>Bir neural network'teki işlem katmanıdır.</p>
+        <div class="flow-diagram">
+          Input<br>
+          ↓<br>
+          Hidden Layer<br>
+          ↓<br>
+          Hidden Layer<br>
+          ↓<br>
+          Output Layer
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Hidden Layer</h3>
+        <p>Input ve output arasında bulunan layer. Modelin input ile output arasındaki daha karmaşık ilişkileri öğrenmesini sağlar.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>MLP</h3>
+        <p>Multi-Layer Perceptron. Birden fazla fully-connected/linear layer'dan oluşan neural network türüdür.</p>
+        <div class="flow-diagram">
+          Embedding<br>
+          ↓<br>
+          Linear<br>
+          ↓<br>
+          Tanh<br>
+          ↓<br>
+          Linear<br>
+          ↓<br>
+          Logits
+        </div>
+        <p>YZ50'deki küçük language model bunun bir örneğidir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 9 ============ -->
+    <section id="section9">
+      <h2>9. Linear Layer</h2>
+
+      <div class="glossary-item">
+        <h3>Linear Transformation</h3>
+        <p>Temel olarak:</p>
+        <div class="formula">y = Wx + b</div>
+        <p>işlemini yapar.</p>
+        <div class="example">
+          <code>- W → weight matrix<br>
+          - x → input<br>
+          - b → bias<br>
+          - y → output</code>
+        </div>
+        <div class="example">
+          <code>PyTorch:<br>
+          nn.Linear(in_features, out_features)</code>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Weight</h3>
+        <p>Modelin input özelliklerine verdiği öğrenilebilir ağırlıklardır. Training sırasında gradient descent ile güncellenir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Bias</h3>
+        <p>Linear layer'ın output'una eklenen öğrenilebilir değerdir.</p>
+        <div class="formula">y = Wx + b</div>
+        <p>Bias, modelin yalnızca origin'den geçen fonksiyonlar öğrenmek zorunda kalmasını engeller.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 10 ============ -->
+    <section id="section10">
+      <h2>10. Activation Functions</h2>
+
+      <div class="glossary-item">
+        <h3>Activation Function</h3>
+        <p>Neural network'e non-linearity ekleyen fonksiyondur.</p>
+        <p>Eğer activation kullanmazsak:</p>
+        <div class="flow-diagram">
+          Linear<br>
+          ↓<br>
+          Linear<br>
+          ↓<br>
+          Linear
+        </div>
+        <p>gibi birçok linear layer'ın birleşimi yine tek bir linear transformation'a indirgenebilir. Activation sayesinde network daha karmaşık fonksiyonlar öğrenebilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 11 ============ -->
+    <section id="section11">
+      <h2>11. Sigmoid</h2>
+
+      <div class="glossary-item">
+        <h3>Sigmoid</h3>
+        <p>Bir değeri 0 ile 1 arasına sıkıştıran S-shaped activation function.</p>
+        <div class="formula">\sigma(x) = \frac{1}{1+e^{-x}}</div>
+        <div class="example">
+          <code>Örnek:<br>
+          sigmoid(-5) ≈ 0.007<br>
+          sigmoid(0)  = 0.5<br>
+          sigmoid(5)  ≈ 0.993</code>
+        </div>
+        <p>Davranışı:</p>
+        <div class="list-item"><strong>x → -∞</strong> ⇒ sigmoid(x) → 0</div>
+        <div class="list-item"><strong>x = 0</strong> ⇒ sigmoid(x) = 0.5</div>
+        <div class="list-item"><strong>x → +∞</strong> ⇒ sigmoid(x) → 1</div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Kullanım</h3>
+        <p>Özellikle binary classification output'unda kullanılabilir.</p>
+        <div class="flow-diagram">
+          logit<br>
+          ↓<br>
+          sigmoid<br>
+          ↓<br>
+          0...1
+        </div>
+        <div class="example">
+          <code>Örneğin:<br>
+          logit = 2.2<br>
+          sigmoid(2.2) ≈ 0.90</code>
+        </div>
+        <p>Bu değer binary classification'da pozitif sınıfa ait probability olarak yorumlanabilir.</p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Problem: Saturation</h3>
+        <p>Input çok büyük veya çok küçük olduğunda sigmoid yaklaşık 0 veya 1 olur. Bu bölgelerde gradient çok küçülür.</p>
+        <p>Bu:</p>
+        <div class="formula">vanishing gradient</div>
+        <p>problemine katkıda bulunabilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 12 ============ -->
+    <section id="section12">
+      <h2>12. Tanh</h2>
+
+      <div class="glossary-item">
+        <h3>Tanh</h3>
+        <p>Input'u -1 ile 1 arasına sıkıştıran activation function.</p>
+        <div class="formula">tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}</div>
+        <p>Önemli değerler:</p>
+        <div class="list-item"><strong>tanh(-∞)</strong> → -1</div>
+        <div class="list-item"><strong>tanh(0)</strong> = 0</div>
+        <div class="list-item"><strong>tanh(+∞)</strong> → +1</div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Sigmoid ile karşılaştırma:</h3>
+        <div class="comparison">
+          <div class="comparison-item">
+            <strong>Sigmoid</strong>
+            <span>→ 0 ... 1</span>
+          </div>
+          <div class="comparison-item">
+            <strong>Tanh</strong>
+            <span>→ -1 ... 1</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Saturation</h3>
+        <p>Tanh da büyük |x| değerlerinde saturate olur.</p>
+        <div class="list-item"><strong>çok negatif</strong> → -1</div>
+        <div class="list-item"><strong>0</strong> → 0</div>
+        <div class="list-item"><strong>çok pozitif</strong> → +1</div>
+        <p>Bu bölgelerde gradient küçülebilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 13 ============ -->
+    <section id="section13">
+      <h2>13. ReLU</h2>
+
+      <div class="glossary-item">
+        <h3>ReLU</h3>
+        <p>Rectified Linear Unit</p>
+        <div class="formula">ReLU(x) = max(0,x)</div>
+        <p>Yani:</p>
+        <div class="list-item"><strong>x < 0</strong> → 0</div>
+        <div class="list-item"><strong>x > 0</strong> → x</div>
+        <div class="example">
+          <code>Örneğin:<br>
+          ReLU(-3) = 0<br>
+          ReLU(2)  = 2</code>
+        </div>
+        <p>Sigmoid ve tanh'a göre hidden layer'larda gradient problemlerini azaltması nedeniyle yaygın kullanılır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 14 ============ -->
+    <section id="section14">
+      <h2>14. Logits</h2>
+
+      <div class="glossary-item">
+        <h3>Logit</h3>
+        <p>Modelin output layer'ından çıkan ham skor. Henüz probability değildir.</p>
+        <div class="example">
+          <code>Örneğin vocabulary 4 token içeriyorsa:<br>
+          logits:<br><br>
+          [2.1, 0.3, -1.2, 3.5]</code>
+        </div>
+        <p>Model her token için bir skor üretmiştir. Daha sonra:</p>
+        <div class="flow-diagram">
+          Logits<br>
+          ↓<br>
+          Softmax<br>
+          ↓<br>
+          Probabilities
+        </div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Logit vs Probability</h3>
+        <p>Çok önemli ayrım:</p>
+        <div class="comparison">
+          <div class="comparison-item">
+            <strong>Logit</strong>
+            <span>→ raw score</span>
+          </div>
+          <div class="comparison-item">
+            <strong>Probability</strong>
+            <span>→ normalized value between 0 and 1</span>
+          </div>
+        </div>
+        <p>Logits:</p>
+        <div class="list-item"><strong>negatif olabilir</strong></div>
+        <div class="list-item"><strong>1'den büyük olabilir</strong></div>
+        <div class="list-item"><strong>toplamları 1 olmak zorunda değildir</strong></div>
+        <p>Probability:</p>
+        <div class="list-item"><strong>0 ≤ p ≤ 1</strong></div>
+        <div class="list-item"><strong>tüm sınıfların toplamı 1</strong></div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 15 ============ -->
+    <section id="section15">
+      <h2>15. Softmax</h2>
+
+      <div class="glossary-item">
+        <h3>Softmax</h3>
+        <p>Bir logits vector'ünü probability distribution'a dönüştürür.</p>
+        <div class="formula">softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}</div>
+        <div class="example">
+          <code>Örneğin:<br>
+          Logits:<br>
+          [2.0, 1.0, 0.0]<br><br>
+          Softmax yaklaşık olarak:<br>
+          [0.665, 0.245, 0.090]<br>
+          üretir.</code>
+        </div>
+        <p>Toplam:</p>
+        <div class="formula">0.665 + 0.245 + 0.090 ≈ 1</div>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Language Model'de</h3>
+        <p>Vocabulary'deki her token için probability üretir.</p>
+        <div class="flow-diagram">
+          logits<br>
+          ↓<br>
+          softmax<br>
+          ↓<br>
+          P("the")<br>
+          P("cat")<br>
+          P("dog")<br>
+          P("is")<br>
+          ...
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 16 ============ -->
+    <section id="section16">
+      <h2>16. Loss Function</h2>
+
+      <div class="glossary-item">
+        <h3>Loss</h3>
+        <p>Modelin prediction'ının gerçek target'tan ne kadar uzak olduğunu ölçen sayı.</p>
+        <p>Genel fikir:</p>
+        <div class="flow-diagram">
+          Prediction<br>
+          ↓<br>
+          Loss<br>
+          ↑<br>
+          Target
+        </div>
+        <p>Training'in amacı genellikle loss'u minimize etmektir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 17 ============ -->
+    <section id="section17">
+      <h2>17. Cross-Entropy Loss</h2>
+
+      <div class="glossary-item">
+        <h3>Cross-Entropy Loss</h3>
+        <p>Classification ve language modeling'de çok kullanılan loss function. Model doğru class'a düşük probability verirse yüksek loss oluşur.</p>
+        <p>Basit durumda:</p>
+        <div class="formula">L = -\log(p_{correct})</div>
+        <div class="example">
+          <code>Örneğin:<br>
+          p(correct) = 0.9<br>
+          ise:<br>
+          loss ≈ 0.105</code>
+        </div>
+        <div class="example">
+          <code>Ama:<br>
+          p(correct) = 0.01<br>
+          ise loss çok daha büyüktür.</code>
+        </div>
+        <p>Yani: Model doğru cevaptan ne kadar eminse, loss o kadar küçülür.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 18 ============ -->
+    <section id="section18">
+      <h2>18. Negative Log Likelihood (NLL)</h2>
+
+      <div class="glossary-item">
+        <h3>Negative Log Likelihood (NLL)</h3>
+        <p>Bir olayın probability'sinin negatif logaritmasını kullanır.</p>
+        <div class="formula">NLL = -\log(p)</div>
+        <p>Language modeling'de modelin gerçek next token'a verdiği probability üzerinden hesaplanabilir. Cross-entropy ile çok yakından ilişkilidir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 19 ============ -->
+    <section id="section19">
+      <h2>19. Gradient</h2>
+
+      <div class="glossary-item">
+        <h3>Gradient</h3>
+        <p>Loss'un model parametrelerine göre hangi yönde ve ne kadar değiştiğini gösterir.</p>
+        <p>Bir parameter θ için:</p>
+        <div class="formula">\frac{\partial L}{\partial \theta}</div>
+        <p>gradient'tir.</p>
+        <p>Sezgisel olarak: "Bu parametreyi biraz değiştirirsem loss hangi yönde değişir?"</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 20 ============ -->
+    <section id="section20">
+      <h2>20. Derivative</h2>
+
+      <div class="glossary-item">
+        <h3>Derivative</h3>
+        <p>Bir fonksiyonun input'u değiştiğinde output'un ne kadar değiştiğini ölçer.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          y = x^2<br>
+          ise:<br>
+          dy/dx = 2x</code>
+        </div>
+        <p>Neural network training'in temelinde derivative vardır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 21 ============ -->
+    <section id="section21">
+      <h2>21. Backpropagation</h2>
+
+      <div class="glossary-item">
+        <h3>Backpropagation</h3>
+        <p>Loss'tan başlayarak network içinde geriye doğru gidip her parametrenin gradientini hesaplama sürecidir.</p>
+        <div class="flow-diagram">
+          Input<br>
+          ↓<br>
+          Forward Pass<br>
+          ↓<br>
+          Prediction<br>
+          ↓<br>
+          Loss<br>
+          ↓<br>
+          Backpropagation<br>
+          ↓<br>
+          Gradients
+        </div>
+        <p>Önemli: Backpropagation parametreleri güncellemez; gradientleri hesaplar.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 22 ============ -->
+    <section id="section22">
+      <h2>22. Gradient Descent</h2>
+
+      <div class="glossary-item">
+        <h3>Gradient Descent</h3>
+        <p>Gradientleri kullanarak parametreleri loss'u azaltacak yönde güncelleme yöntemidir.</p>
+        <div class="formula">\theta_{new} = \theta_{old} - \eta \nabla L</div>
+        <div class="example">
+          <code>Burada:<br>
+          - θ → parameter<br>
+          - η → learning rate<br>
+          - ∇L → gradient</code>
+        </div>
+        <div class="flow-diagram">
+          Forward<br>
+          ↓<br>
+          Loss<br>
+          ↓<br>
+          Backward<br>
+          ↓<br>
+          Gradient<br>
+          ↓<br>
+          Gradient Descent<br>
+          ↓<br>
+          Parameter Update
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 23 ============ -->
+    <section id="section23">
+      <h2>23. Learning Rate</h2>
+
+      <div class="glossary-item">
+        <h3>Learning Rate</h3>
+        <p>Her parameter update'inin ne kadar büyük olacağını belirler.</p>
+        <div class="formula">θ ← θ - learning_rate × gradient</div>
+        <p>Çok büyük learning rate:</p>
+        <div class="list-item"><strong>overshooting</strong></div>
+        <div class="list-item"><strong>unstable training</strong></div>
+        <p>Çok küçük learning rate:</p>
+        <div class="list-item"><strong>very slow training</strong></div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 24 ============ -->
+    <section id="section24">
+      <h2>24. Optimizer</h2>
+
+      <div class="glossary-item">
+        <h3>Optimizer</h3>
+        <p>Gradientleri kullanarak model parametrelerini güncelleyen algoritmadır.</p>
+        <div class="example">
+          <code>Örnek:<br>
+          - SGD<br>
+          - Adam<br>
+          - AdamW</code>
+        </div>
+        <div class="example">
+          <code>PyTorch:<br>
+          optimizer.step()</code>
+        </div>
+        <p>Genel training loop:</p>
+        <div class="example">
+          <code>optimizer.zero_grad()<br><br>
+          output = model(x)<br>
+          loss = loss_fn(output, target)<br><br>
+          loss.backward()<br>
+          optimizer.step()</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 25 ============ -->
+    <section id="section25">
+      <h2>25. Forward Pass</h2>
+
+      <div class="glossary-item">
+        <h3>Forward Pass</h3>
+        <p>Input'un model boyunca ileri doğru geçirilmesi.</p>
+        <div class="flow-diagram">
+          Input<br>
+          ↓<br>
+          Layer<br>
+          ↓<br>
+          Activation<br>
+          ↓<br>
+          Layer<br>
+          ↓<br>
+          Output
+        </div>
+        <p>Forward pass sonucunda prediction elde edilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 26 ============ -->
+    <section id="section26">
+      <h2>26. Backward Pass</h2>
+
+      <div class="glossary-item">
+        <h3>Backward Pass</h3>
+        <p>Loss'tan başlayarak gradientlerin hesaplanması.</p>
+        <div class="flow-diagram">
+          Loss<br>
+          ↓<br>
+          Backward<br>
+          ↓<br>
+          Gradients
+        </div>
+        <div class="example">
+          <code>PyTorch:<br>
+          loss.backward()</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 27 ============ -->
+    <section id="section27">
+      <h2>27. Batch</h2>
+
+      <div class="glossary-item">
+        <h3>Batch</h3>
+        <p>Modelin tek bir update sırasında birlikte işlediği örnek grubudur.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          dataset = 10,000 examples<br>
+          batch_size = 32</code>
+        </div>
+        <p>Model her iteration'da 32 örnek işleyebilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 28 ============ -->
+    <section id="section28">
+      <h2>28. Batch Size</h2>
+
+      <div class="glossary-item">
+        <h3>Batch Size</h3>
+        <p>Bir batch'teki örnek sayısıdır.</p>
+        <div class="example">
+          <code>batch_size = 32<br>
+          → model aynı anda 32 training example işler.</code>
+        </div>
+        <p>Batch size büyüdükçe:</p>
+        <div class="list-item"><strong>memory kullanımı artabilir</strong></div>
+        <div class="list-item"><strong>gradient daha fazla örneğin ortalamasını temsil eder</strong></div>
+        <div class="list-item"><strong>training davranışı değişir</strong></div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 29 ============ -->
+    <section id="section29">
+      <h2>29. Epoch</h2>
+
+      <div class="glossary-item">
+        <h3>Epoch</h3>
+        <p>Modelin training datasetinin tamamını bir kez görmesi.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          10,000 examples<br>
+          batch_size = 100<br>
+          ise yaklaşık:<br>
+          100 batches = 1 epoch</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 30 ============ -->
+    <section id="section30">
+      <h2>30. Iteration / Step</h2>
+
+      <div class="glossary-item">
+        <h3>Iteration / Step</h3>
+        <p>Modelin bir batch üzerinde bir training update'i gerçekleştirmesidir.</p>
+        <p>Kabaca:</p>
+        <div class="formula">1 batch → 1 step</div>
+        <p>Bir epoch'taki step sayısı yaklaşık:</p>
+        <div class="formula">\frac{dataset\ size}{batch\ size}</div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 31 ============ -->
+    <section id="section31">
+      <h2>31. Shuffle</h2>
+
+      <div class="glossary-item">
+        <h3>Shuffle</h3>
+        <p>Training örneklerinin sırasını rastgele değiştirmektir. Özellikle dataset'teki örnekler belirli bir sırada gruplanmışsa önemlidir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          Food<br>
+          Food<br>
+          Food<br>
+          Food<br>
+          Sports<br>
+          Sports<br>
+          Sports</code>
+        </div>
+        <p>yerine:</p>
+        <div class="example">
+          <code>Sports<br>
+          Food<br>
+          Sports<br>
+          Food<br>
+          ...</code>
+        </div>
+        <p>gibi daha karışık batch'ler oluşturulabilir. Amaç modelin batch'ler arasında daha çeşitli örnekler görmesini sağlamaktır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 32 ============ -->
+    <section id="section32">
+      <h2>32. Sampling</h2>
+
+      <div class="glossary-item">
+        <h3>Sampling</h3>
+        <p>Modelin probability distribution'ından bir sonraki tokenı seçme işlemidir.</p>
+        <div class="example">
+          <code>Örneğin model:<br>
+          cat → 0.60<br>
+          dog → 0.30<br>
+          car → 0.10<br>
+          üretiyorsa sampling sonucunda:<br>
+          cat</code>
+        </div>
+        <p>seçilebilir ama dog veya car seçilmesi de mümkündür. Bu, her zaman en yüksek probability'yi seçmekten farklıdır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 33 ============ -->
+    <section id="section33">
+      <h2>33. Overfitting</h2>
+
+      <div class="glossary-item">
+        <h3>Overfitting</h3>
+        <p>Modelin training data'sını çok iyi öğrenmesine rağmen yeni/verilmemiş data üzerinde kötü performans göstermesi.</p>
+        <p>Tipik:</p>
+        <div class="list-item"><strong>Train loss</strong> ↓↓↓</div>
+        <div class="list-item"><strong>Dev loss</strong> ↓ sonra ↑</div>
+        <p>Model training examples'a fazla uyum sağlamıştır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 34 ============ -->
+    <section id="section34">
+      <h2>34. Underfitting</h2>
+
+      <div class="glossary-item">
+        <h3>Underfitting</h3>
+        <p>Modelin training data'sını bile yeterince öğrenememesi.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          Train loss → yüksek<br>
+          Dev loss   → yüksek</code>
+        </div>
+        <p>Model yeterince güçlü olmayabilir veya yeterince train edilmemiş olabilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 35 ============ -->
+    <section id="section35">
+      <h2>35. Generalization</h2>
+
+      <div class="glossary-item">
+        <h3>Generalization</h3>
+        <p>Modelin training sırasında görmediği yeni veriler üzerinde de iyi performans göstermesidir.</p>
+        <p>Amaç:</p>
+        <div class="flow-diagram">
+          Memorization<br>
+          ↓<br>
+          yerine<br>
+          ↓<br>
+          Generalization
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 36 ============ -->
+    <section id="section36">
+      <h2>36. Saturation</h2>
+
+      <div class="glossary-item">
+        <h3>Saturation</h3>
+        <p>Activation function'ın belirli bölgelerde output'unun neredeyse sabit hale gelmesidir.</p>
+        <p>Sigmoid:</p>
+        <div class="list-item"><strong>x → -∞</strong> → 0</div>
+        <div class="list-item"><strong>x → +∞</strong> → 1</div>
+        <p>Tanh:</p>
+        <div class="list-item"><strong>x → -∞</strong> → -1</div>
+        <div class="list-item"><strong>x → +∞</strong> → 1</div>
+        <p>Bu bölgelerde derivative çok küçülür.</p>
+        <p>Sonuç:</p>
+        <div class="flow-diagram">
+          small gradient<br>
+          ↓<br>
+          small updates<br>
+          ↓<br>
+          vanishing gradient
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 37 ============ -->
+    <section id="section37">
+      <h2>37. Vanishing Gradient</h2>
+
+      <div class="glossary-item">
+        <h3>Vanishing Gradient</h3>
+        <p>Gradientlerin network içinde çok küçülmesi problemidir. Özellikle sigmoid/tanh gibi saturation gösteren activation'larda ortaya çıkabilir.</p>
+        <p>Gradient:</p>
+        <div class="formula">1 → 0.5 → 0.1 → 0.01 → 0.001</div>
+        <p>gibi gittikçe küçülürse erken layer'lar çok az güncellenebilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 38 ============ -->
+    <section id="section38">
+      <h2>38. Exploding Gradient</h2>
+
+      <div class="glossary-item">
+        <h3>Exploding Gradient</h3>
+        <p>Gradientlerin aşırı büyümesi.</p>
+        <div class="formula">1 → 5 → 20 → 100 → 1000</div>
+        <p>gibi. Training unstable hale gelebilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 39 ============ -->
+    <section id="section39">
+      <h2>39. Initialization</h2>
+
+      <div class="glossary-item">
+        <h3>Initialization</h3>
+        <p>Neural network parametrelerinin training başlamadan önce hangi değerlerle başlatılacağını belirleme işlemidir.</p>
+        <p>Kötü initialization:</p>
+        <div class="list-item"><strong>çok büyük activations</strong></div>
+        <div class="list-item"><strong>çok küçük activations</strong></div>
+        <div class="list-item"><strong>vanishing gradients</strong></div>
+        <div class="list-item"><strong>exploding gradients</strong></div>
+        <p>gibi sorunlara yol açabilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 40 ============ -->
+    <section id="section40">
+      <h2>40. Kaiming Initialization</h2>
+
+      <div class="glossary-item">
+        <h3>Kaiming Initialization</h3>
+        <p>Özellikle ReLU benzeri activation'larla kullanılan weight initialization yöntemidir.</p>
+        <p>Temel amaç: Layer'lar arasında activation ve gradient ölçeğinin çok fazla büyüyüp küçülmesini engellemek.</p>
+        <p>Kabaca:</p>
+        <div class="formula">Var(W) \approx \frac{2}{n}</div>
+        <div class="example">
+          <code>Buradaki n, ilgili layer'ın input fan-in'idir.</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 41 ============ -->
+    <section id="section41">
+      <h2>41. Batch Normalization</h2>
+
+      <div class="glossary-item">
+        <h3>Batch Normalization</h3>
+        <p>Activation'ları batch içerisindeki istatistikleri kullanarak normalize eden yöntemdir.</p>
+        <div class="flow-diagram">
+          activation<br>
+          ↓<br>
+          normalize<br>
+          ↓<br>
+          scale + shift<br>
+          ↓<br>
+          next layer
+        </div>
+        <p>Amaç training'i daha stabil hale getirmek ve uygun koşullarda optimization'ı kolaylaştırmaktır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 42 ============ -->
+    <section id="section42">
+      <h2>42. Tensor</h2>
+
+      <div class="glossary-item">
+        <h3>Tensor</h3>
+        <p>PyTorch'taki temel çok boyutlu veri yapısıdır.</p>
+        <div class="example">
+          <code>Scalar:<br>
+          5</code>
+        </div>
+        <div class="example">
+          <code>Vector:<br>
+          [1, 2, 3]</code>
+        </div>
+        <div class="example">
+          <code>Matrix:<br>
+          [<br>
+           [1, 2],<br>
+           [3, 4]<br>
+          ]</code>
+        </div>
+        <p>Tensor ise bunların daha yüksek boyutlu genellemesidir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 43 ============ -->
+    <section id="section43">
+      <h2>43. Tensor Shape</h2>
+
+      <div class="glossary-item">
+        <h3>Tensor Shape</h3>
+        <p>Tensor'ın her dimension'ındaki eleman sayısını belirtir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          x.shape<br>
+          sonucu:<br>
+          (32, 3, 10)<br>
+          ise:<br>
+          32 → batch size<br>
+          3  → sequence/context length<br>
+          10 → embedding dimension<br>
+          olabilir.</code>
+        </div>
+        <p>Shape okumak neural network debugging'inde çok önemlidir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 44 ============ -->
+    <section id="section44">
+      <h2>44. Dimension / Dim</h2>
+
+      <div class="glossary-item">
+        <h3>Dimension / Dim</h3>
+        <p>Tensor'ın eksenlerinden biridir.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          (32, 10)<br>
+          iki-dimensional tensor'dur.</code>
+        </div>
+        <div class="example">
+          <code>32 → number of rows<br>
+          10 → number of features<br>
+          şeklinde yorumlanabilir.</code>
+        </div>
+        <p>Anlamı tensor'ın kullanımına göre değişir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 45 ============ -->
+    <section id="section45">
+      <h2>45. requires_grad</h2>
+
+      <div class="glossary-item">
+        <h3>requires_grad</h3>
+        <p>PyTorch'ta bir tensor için gradient hesaplanıp hesaplanmayacağını belirler.</p>
+        <div class="example">
+          <code>x.requires_grad</code>
+        </div>
+        <p>Model parameter'larında genellikle gradient tracking aktiftir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 46 ============ -->
+    <section id="section46">
+      <h2>46. .backward()</h2>
+
+      <div class="glossary-item">
+        <h3>.backward()</h3>
+        <p>PyTorch'ta loss üzerinden backpropagation başlatır.</p>
+        <div class="example">
+          <code>loss.backward()</code>
+        </div>
+        <p>Bu işlem sonucunda parameter'ların gradientleri hesaplanır.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 47 ============ -->
+    <section id="section47">
+      <h2>47. .grad</h2>
+
+      <div class="glossary-item">
+        <h3>.grad</h3>
+        <p>Bir parameter'ın hesaplanan gradientine erişmek için kullanılır.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          weight.grad</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 48 ============ -->
+    <section id="section48">
+      <h2>48. torch.no_grad()</h2>
+
+      <div class="glossary-item">
+        <h3>torch.no_grad()</h3>
+        <p>PyTorch'a belirli bir block içinde gradient tracking yapmamasını söyler.</p>
+        <p>Özellikle:</p>
+        <div class="list-item"><strong>evaluation</strong></div>
+        <div class="list-item"><strong>inference</strong></div>
+        <div class="list-item"><strong>prediction</strong></div>
+        <p>sırasında memory ve computation tasarrufu sağlayabilir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 49 ============ -->
+    <section id="section49">
+      <h2>49. nn.Module</h2>
+
+      <div class="glossary-item">
+        <h3>nn.Module</h3>
+        <p>PyTorch'taki neural network'lerin temel class'ıdır.</p>
+        <div class="example">
+          <code>Kendi modelimizi genellikle:<br>
+          class Model(nn.Module):<br>
+              ...<br>
+          şeklinde oluştururuz.</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 50 ============ -->
+    <section id="section50">
+      <h2>50. nn.Linear</h2>
+
+      <div class="glossary-item">
+        <h3>nn.Linear</h3>
+        <p>Fully-connected linear layer. Matematiksel olarak:</p>
+        <div class="formula">y = Wx + b</div>
+        <p>işlemini gerçekleştirir.</p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 51 ============ -->
+    <section id="section51">
+      <h2>51. nn.Embedding</h2>
+
+      <div class="glossary-item">
+        <h3>nn.Embedding</h3>
+        <p>Token ID'lerini embedding vector'lerine dönüştürür.</p>
+        <div class="example">
+          <code>Örneğin:<br>
+          embedding = nn.Embedding(27, 10)<br>
+          şu anlama gelir:<br>
+          27 tokens<br>
+          ↓<br>
+          her token için<br>
+          10-dimensional vector</code>
+        </div>
+        <p>Embedding matrix shape:</p>
+        <div class="formula">(27, 10)</div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 52 ============ -->
+    <section id="section52">
+      <h2>52. Model Training — Büyük Resim</h2>
+
+      <div class="glossary-item">
+        <h3>YZ50'de sürekli karşına çıkacak temel training loop:</h3>
+        <div class="flow-diagram">
+          ┌───────────────┐<br>
+          │ Training Data │<br>
+          └───────┬───────┘<br>
+                  ↓<br>
+               Input<br>
+                  ↓<br>
+            Forward Pass<br>
+                  ↓<br>
+             Prediction<br>
+                  ↓<br>
+          Loss Function<br>
+                  ↓<br>
+                Loss<br>
+                  ↓<br>
+         Backpropagation<br>
+                  ↓<br>
+             Gradients<br>
+                  ↓<br>
+            Optimizer<br>
+                  ↓<br>
+       Parameter Update<br>
+                  │<br>
+                  └──────→ tekrar
+        </div>
+        <p>Kısaca:</p>
+        <div class="formula">predict → measure error → calculate gradients → update weights</div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 53 ============ -->
+    <section id="section53">
+      <h2>53. En Çok Karıştırılan Kavramlar</h2>
+
+      <div class="confused-concepts">
+        <h3>En Çok Karıştırılan Kavramlar</h3>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Parameter</strong>
+            <span>→ model öğrenir</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Hyperparameter</strong>
+            <span>→ biz belirleriz</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Logit</strong>
+            <span>→ raw score</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Probability</strong>
+            <span>→ 0–1 arasında normalize edilmiş değer</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Sigmoid</strong>
+            <span>→ tek değeri 0–1 arasına çeker<br>→ binary classification için sık kullanılır</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Softmax</strong>
+            <span>→ birden fazla class'ın skorlarını probability distribution'a çevirir<br>→ toplam probability = 1</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Loss</strong>
+            <span>→ model ne kadar yanlış?</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Gradient</strong>
+            <span>→ parameter'ı hangi yönde değiştirmeliyiz?</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Backpropagation</strong>
+            <span>→ gradientleri hesaplar</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Gradient Descent</strong>
+            <span>→ gradientleri kullanarak parameterları günceller</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Batch</strong>
+            <span>→ tek update'te işlenen veri grubu</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Epoch</strong>
+            <span>→ tüm datasetin bir kez işlenmesi</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Train</strong>
+            <span>→ learn</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Dev</strong>
+            <span>→ tune / compare</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Test</strong>
+            <span>→ final evaluation</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>Overfitting</strong>
+            <span>→ training'i iyi öğrenir, yeni veride kötü</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Underfitting</strong>
+            <span>→ training'i bile yeterince öğrenemez</span>
+          </div>
+        </div>
+
+        <div class="confused-pair">
+          <div class="confused-pair-item">
+            <strong>One-hot</strong>
+            <span>→ fixed sparse representation</span>
+          </div>
+          <div class="confused-pair-item">
+            <strong>Embedding</strong>
+            <span>→ learned dense representation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 54 ============ -->
+    <section id="section54">
+      <h2>54. YZ50 Neural Network Mental Model</h2>
+
+      <div class="mental-model">
+        <h3>YZ50 Neural Network Mental Model</h3>
+        <p>Bir token'ın modelden geçişini tek zincirde düşün:</p>
+        <div class="chain">
+          TEXT<br>
+          ↓<br>
+          TOKENIZATION<br>
+          ↓<br>
+          TOKEN ID<br>
+          ↓<br>
+          EMBEDDING<br>
+          ↓<br>
+          HIDDEN LAYERS<br>
+          ↓<br>
+          ACTIVATION<br>
+          ↓<br>
+          LOGITS<br>
+          ↓<br>
+          SOFTMAX<br>
+          ↓<br>
+          PROBABILITY DISTRIBUTION<br>
+          ↓<br>
+          PREDICTION<br>
+          ↓<br>
+          LOSS<br>
+          ↓<br>
+          BACKPROPAGATION<br>
+          ↓<br>
+          GRADIENTS<br>
+          ↓<br>
+          OPTIMIZER<br>
+          ↓<br>
+          UPDATED PARAMETERS
+        </div>
+        <p>Ve training boyunca:</p>
+        <div class="chain">
+          repeat many times<br>
+                  ↑<br>
+                  └──────────────────────────────┐<br>
+                                            │<br>
+          Input → Prediction → Loss → Gradients → Update
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 55 ============ -->
+    <section id="section55">
+      <h2>55. Hatırlama İçin Mini Cheat Sheet</h2>
+
+      <div class="cheat-sheet">
+        <h3>Mini Cheat Sheet</h3>
+        <div class="cheat-sheet-grid">
+          <div class="cheat-sheet-item">
+            <strong>TOKEN</strong>
+            <span>= modelin gördüğü metin birimi</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>VOCABULARY</strong>
+            <span>= modelin bildiği tokenlar</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>EMBEDDING</strong>
+            <span>= token ID → learned vector</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>LOGIT</strong>
+            <span>= raw score</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>SOFTMAX</strong>
+            <span>= logits → probability distribution</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>LOSS</strong>
+            <span>= prediction ne kadar yanlış?</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>GRADIENT</strong>
+            <span>= parameterı hangi yönde değiştirmeliyiz?</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>BACKPROP</strong>
+            <span>= gradientleri hesapla</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>OPTIMIZER</strong>
+            <span>= gradientleri kullanarak parameterları güncelle</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>LEARNING RATE</strong>
+            <span>= update ne kadar büyük?</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>BATCH</strong>
+            <span>= bir update'te kullanılan veri</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>EPOCH</strong>
+            <span>= tüm datasetin bir kez görülmesi</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>OVERFITTING</strong>
+            <span>= training'i ezberleme / generalization düşmesi</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>SIGMOID</strong>
+            <span>= 0–1</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>TANH</strong>
+            <span>= -1–1</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>RELU</strong>
+            <span>= max(0,x)</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>SATURATION</strong>
+            <span>= activation'ın değişiminin çok küçülmesi</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>VANISHING GRADIENT</strong>
+            <span>= gradientlerin çok küçülmesi</span>
+          </div>
+          <div class="cheat-sheet-item">
+            <strong>EXPLODING GRADIENT</strong>
+            <span>= gradientlerin çok büyümesi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 56 ============ -->
+    <section id="section56">
+      <h2>56. En Önemli Formüller</h2>
+
+      <div class="formula-section">
+        <h3>En Önemli Formüller</h3>
+        <div class="formula-grid">
+          <div class="formula-item">
+            <strong>Linear layer</strong>
+            <div class="math">y = Wx + b</div>
+          </div>
+          <div class="formula-item">
+            <strong>Sigmoid</strong>
+            <div class="math">\sigma(x) = \frac{1}{1+e^{-x}}</div>
+          </div>
+          <div class="formula-item">
+            <strong>Tanh</strong>
+            <div class="math">tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}</div>
+          </div>
+          <div class="formula-item">
+            <strong>ReLU</strong>
+            <div class="math">ReLU(x) = max(0,x)</div>
+          </div>
+          <div class="formula-item">
+            <strong>Softmax</strong>
+            <div class="math">softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}</div>
+          </div>
+          <div class="formula-item">
+            <strong>Cross-Entropy / NLL</strong>
+            <div class="math">L = -\log(p_{correct})</div>
+          </div>
+          <div class="formula-item">
+            <strong>Gradient Descent</strong>
+            <div class="math">\theta_{new} = \theta_{old} - \eta \nabla L</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 57 ============ -->
+    <section id="section57">
+      <h2>57. Tek Cümlelik Büyük Resim</h2>
+
+      <div class="big-picture">
+        <h3>Tek Cümlelik Büyük Resim</h3>
+        <p>Neural network, input'u parametreli fonksiyonlardan geçirerek prediction üretir; loss prediction'ın hatasını ölçer; backpropagation gradientleri hesaplar; optimizer bu gradientleri kullanarak parametreleri günceller ve model böylece zamanla daha iyi prediction yapmayı öğrenir.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>YZ50 — Machine Learning & Neural Networks Glossary</footer>
+
+<script>
+  // Glossary nav active-state
+  const glossaryTabs = Array.from(document.querySelectorAll('.glossary-nav a'));
+  const glossarySections = glossaryTabs.map(t => document.getElementById(t.getAttribute('href').substring(1)));
+
+  function updateGlossaryActiveTab(){
+    let idx = 0;
+    const y = window.scrollY + 100;
+    glossarySections.forEach((s, i) => {
+      if (s && s.offsetTop <= y) idx = i;
+    });
+    glossaryTabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+  }
+
+  window.addEventListener('scroll', updateGlossaryActiveTab, { passive: true });
+  updateGlossaryActiveTab();
+</script>
+
+</body>
+</html>
