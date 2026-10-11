@@ -450,3 +450,4 @@ context = torch.zeros((1, 1),dtype=torch.long)
 generated = generate_attention(context, max_new_tokens=500)
 
 print(decode(generated[0].tolist()))
+
